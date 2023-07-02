@@ -22,29 +22,31 @@ class _myAppState extends State<myApp> {
     // ignore: prefer_const_constructors
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Scaffold(
-            appBar: AppBar(
-              title: Text(
-                "Fitezo",
-                style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.white70,
-                    fontWeight: FontWeight.bold),
-              ),
-              backgroundColor: Color(0xff8485e5),
-            ),
-            body:
-                // Container(
-                //   width: double.infinity,
-                //   height: 500,
-                //   child: Center(
-                //       child: Text(
-                //     "Welcome",
-                //     style: TextStyle(fontSize: 30),
-                //   )),
-                // ),
-                // home: const Splash(),
-                Mainscreen()));
+        home: Splash(),
+        // home: Scaffold(
+        //     appBar: AppBar(
+        //       title: Text(
+        //         "Fitezo",
+        //         style: TextStyle(
+        //             fontSize: 25,
+        //             color: Colors.white70,
+        //             fontWeight: FontWeight.bold),
+        //       ),
+        //       backgroundColor: Color(0xff8485e5),
+        //     ),
+            // body:
+            //     Container(
+            //       width: double.infinity,
+            //       height: 500,
+            //       child: Center(
+            //           child: Text(
+            //         "Welcome",
+            //         style: TextStyle(fontSize: 30),
+            //       )),
+            //     ),
+            //     home: const Splash(),
+            //     Mainscreen()));
+    );
   }
 }
 

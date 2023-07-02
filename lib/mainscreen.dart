@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:fitezo/drawer.dart';
 import 'package:fitezo/fitDiet.dart';
 import 'package:fitezo/profile.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -39,7 +40,7 @@ class _MainscreenState extends State<Mainscreen> {
     super.initState();
     futureUser = fetchUser();
   }
-
+  int itemCnt = 10 ;
   Widget build(BuildContext context) {
     // final List conti = [
     //   '1',
@@ -63,70 +64,14 @@ class _MainscreenState extends State<Mainscreen> {
     //   '19',
     //   '20'
     // ];
+
     return SafeArea(
       // ignore: sort_child_properties_last
       child: Scaffold(
         key: _scaffoldKey,
-        drawer: Drawer(
-          child: ListView(
-            // padding: const EdgeInsets.all(10),
-            children:  [
-              DrawerHeader(
-                child: Text(""),
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/pragya1.png"),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              ListTile(
-                leading: const Icon(
-                  Icons.tips_and_updates,
-                  color: Color.fromARGB(255, 81, 18, 18),
-                ),
-                title: const Text('Tips'),
-              ),
-              ListTile(
-                leading: const Icon(
-                  Icons.health_and_safety,
-                  color: Color.fromARGB(255, 81, 18, 18),
-                ),
-                title: Text('Calorie Profiles'),
-               
-                
-                onTap: () async => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => FitDiet(),
-                    ),
-                  ),
-              ),
-              ListTile(
-                leading: const Icon(
-                  Icons.person,
-                  color: Color.fromARGB(255, 81, 18, 18),
-                ),
-                title: const Text('Profile'),
-                onTap: () async => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Profile(),
-                    ),
-                  ),
-              ),
-              ListTile(
-                leading: const Icon(
-                  Icons.settings,
-                  color: Color.fromARGB(255, 81, 18, 18),
-                ),
-                title: const Text('Settings'),
-              ),
-            ],
-          ),
-        ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        drawer: drawer(context),
+        body: ListView(
+          // crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Builder(builder: (context) {
               return Container(
@@ -160,12 +105,16 @@ class _MainscreenState extends State<Mainscreen> {
                 ),
               );
             }),
-            Expanded(
-                child: FutureBuilder<List<User>>(
+            FutureBuilder<List<User>>(
               future: futureUser,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return ListView.builder(itemBuilder: ((context, index) {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    //itemCnt is added to implement the concept of lazy loading!
+                      itemCount: itemCnt,
+                      itemBuilder: ((context, index) {
                     return GestureDetector(
                         onTap: (() {}),
                         child: ListContainer(
@@ -180,7 +129,15 @@ class _MainscreenState extends State<Mainscreen> {
                 // By default, show a loading spinner.
                 return const CircularProgressIndicator();
               },
-            )),
+            ),
+            ElevatedButton(onPressed: ()async{
+                   setState(() {
+                  itemCnt = itemCnt + 10;
+                });
+
+            },
+                child: const Text("Load More" , style: TextStyle(color: Colors.black,fontWeight: FontWeight.w500),)
+            )
           ],
         ),
       ),
